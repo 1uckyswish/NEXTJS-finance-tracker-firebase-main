@@ -1,5 +1,5 @@
 import Modal2 from './Modal2';
-import { useState, useContext } from 'react';
+import { useState, useContext, useRef } from 'react';
 import { financeContext } from '@/lib/store/finance-context';
 
 import { v4 as uuidv4 } from 'uuid';
@@ -7,7 +7,11 @@ import { v4 as uuidv4 } from 'uuid';
 function AddExpensesModal({ show }) {
   const [expenseAmount, setExpenseAmount] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const { expenses, addExpenseItem} = useContext(financeContext);
+  const [showAddExpense, setShowAddExpense] = useState(false);
+  const { expenses, addExpenseItem, addCategory} = useContext(financeContext);
+  const titleRef = useRef();
+  const colorRef = useRef();
+
   const addExpenseItemHandler = async() => {
     const expense = expenses.find((e) => {
       return e.id === selectedCategory;
@@ -35,6 +39,20 @@ function AddExpensesModal({ show }) {
     console.error(error.message);
    }
   };
+
+  const addCategoryHandler = async () => {
+    const title = titleRef.current.value;
+    const color = colorRef.current.value;
+
+    try {
+      await addCategory({ title, color, total: 0 });
+      setShowAddExpense(false);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+
   return (
     <Modal2 show={show}>
       <label className="form-control w-full">
@@ -79,10 +97,28 @@ function AddExpensesModal({ show }) {
         <div className="flex flex-col gap-4 mt-6">
        <div className='flex items-center justify-between'>
          <h3 className='text-2xl capitalize'>Select Expense Category</h3>
-        <button className='text-lime-400'>+ New Category</button>
+        <button onClick={() => {
+          setShowAddExpense(!showAddExpense);
+        }} className='text-lime-400'>+ New Category</button>
        </div>
-       <div>
+
+        {showAddExpense &&(
+           <div className='flex items-center justify-evenly'>
+        <input type='text' placeholder='Enter Title' ref={titleRef} className='px-2 py-2 bg-slate-600 rounded-xl'/>
+       
+        <input type='color' ref={colorRef} className='w-24 h-10 px-4 py-2 bg-slate-600 rounded-xl'/>
+         <button
+                onClick={addCategoryHandler}
+                className="btn btn-primary-outline"
+              >
+                Create
+              </button>
+        <button onClick={() => {
+          setShowAddExpense(false);
+        }} className='btn btn-danger'>Cancel</button>
        </div>
+        )}
+
           {expenses.map((expense) => {
             return (
               <button
