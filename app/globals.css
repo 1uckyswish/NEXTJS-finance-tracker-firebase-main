@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  button {
+    @apply transition-all duration-100 hover:scale-110;
+  }
+}
+
+
+@layer utilities {
+  .btn {
+    @apply text-sm capitalize rounded-xl;
+  }
+
+.modal-box {
+  @apply w-full h-full transition-all duration-500;
+}
+
+}
