@@ -3,7 +3,7 @@
 import "./globals.css";
 
 import Nav from "@/components/Navigation";
-
+import AuthContextProvider from "@/lib/store/auth-context";
 import FinanceContextProvider from "@/lib/store/finance-context";
 
 export default function RootLayout({ children }) {
@@ -15,10 +15,12 @@ export default function RootLayout({ children }) {
       */}
       <head />
       <body>
+      <AuthContextProvider>
         <FinanceContextProvider>
           <Nav />
           {children}
         </FinanceContextProvider>
+        </AuthContextProvider>
       </body>
     </html>
   );
