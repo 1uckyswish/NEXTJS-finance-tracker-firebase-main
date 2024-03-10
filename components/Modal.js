@@ -1,17 +1,24 @@
-function Modal({children}){
-    return(
-      <dialog id="my_modal_3" className="modal">
-  <div className="modal-box">
-    <form method="dialog">
-      {/* if there is a button in form, it will close the modal */}
-      <button className="btn btn-sm btn-circle btn-outline btn-ghost absolute right-2 top-2"> <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
-    </form>
-     {children}
-  </div>
-</dialog>
-    )
+function Modal({ show, onClose, children }) {
+  return (
+    <div
+      style={{
+        transform: show ? "translateX(0%)" : "translateX(-200%)",
+      }}
+      className="absolute top-0 left-0 w-full h-full z-10 transition-all duration-500"
+    >
+      <div className="container mx-auto max-w-2xl h-[80vh] rounded-3xl bg-slate-800 py-6 px-4">
+        <button
+          onClick={() => {
+            onClose(false);
+          }}
+          className="w-10 h-10 mb-4 font-bold rounded-full bg-slate-600"
+        >
+          X
+        </button>
+        {children}
+      </div>
+    </div>
+  );
 }
 
- {/* You can open the modal using document.getElementById('ID').showModal() method */}
-
- export default Modal;
+export default Modal;
