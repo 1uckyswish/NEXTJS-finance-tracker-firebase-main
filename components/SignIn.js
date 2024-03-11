@@ -9,7 +9,7 @@ function SignIn() {
     <main className="container max-w-2xl px-6 mx-auto">
       <h1 className="mb-6 text-6xl font-bold text-center">Welcome 👋</h1>
 
-      <div className="flex flex-col overflow-hidden shadow-md shadow-slate-500 bg-slate-800 rounded-2xl">
+      <div className="flex flex-col overflow-hidden shadow-md rounded-2xl">
         <div className="h-52">
           <img
             className="object-cover w-full h-full"
