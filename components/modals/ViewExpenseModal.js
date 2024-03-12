@@ -39,8 +39,9 @@ function ViewExpenseModal({ show, onClose, expense }) {
   };
 
   // Date formatter function
-  function formatDate(date) {
-    return format(new Date(date.toMillis()), 'MMMM do h:mm a');
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    return format(date, 'MMMM do h:mm a');
   }
 
   return (
@@ -74,7 +75,7 @@ function ViewExpenseModal({ show, onClose, expense }) {
               <div className="timeline-start md:text-start">
                 <div className="text-lg font-black">{item.description}</div>
                 <time className="font-mono italic">
-                  {formatDate(item.createdAt)} {/* Apply the formatDate function */}
+                  {formatDate(item.createdAt.toMillis ? new Date(item.createdAt.toMillis()).toISOString() : item.createdAt.toISOString())}
                 </time>
 
                 <div className="flex">
