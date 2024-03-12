@@ -19,15 +19,15 @@ function ExpenseCategoryItem({ expense }) {
           setViewExpenseModal(true);
         }}
       >
-        <div className="flex items-center justify-between px-4 py-4 bg-slate-700 rounded-3xl">
+        <div className="flex items-center justify-between px-4 py-4 bg-[#b4e9d6] rounded-3xl">
           <div className="flex items-center gap-2">
             <div
               className="w-[25px] h-[25px] rounded-full"
               style={{ backgroundColor: expense.color }}
             />
-            <h4 className="capitalize">{expense.title}</h4>
+            <h4 className="capitalize text-slate-800">{expense.title}</h4>
           </div>
-          <p>{currencyFormatter(expense.total)}</p>
+          <p className="text-white">{currencyFormatter(expense.total)}</p>
         </div>
       </button>
     </>

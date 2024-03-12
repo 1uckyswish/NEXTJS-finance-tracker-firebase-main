@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import { useState, useContext, useEffect } from "react";
 import { financeContext } from "@/lib/store/finance-context";
@@ -22,6 +22,8 @@ export default function Home() {
   const [showAddExpenseModal, setShowAddExpenseModal] = useState(false);
 
   const [balance, setBalance] = useState(0);
+  const [highestCategory, setHighestCategory] = useState('');
+  const [currentMonthRange, setCurrentMonthRange] = useState('');
 
   const { expenses, income } = useContext(financeContext);
   const { user } = useContext(authContext);
@@ -36,6 +38,24 @@ export default function Home() {
       }, 0);
 
     setBalance(newBalance);
+
+    // Find the highest expense category
+    const highestExpense = expenses.reduce((prev, current) => (prev.total > current.total) ? prev : current, {});
+    if (highestExpense.total > 0) {
+      setHighestCategory(`Highest Category is ${highestExpense.title}`);
+    } else {
+      setHighestCategory('');
+    }
+
+    // Calculate current month range
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth() + 1; // Months are zero-based
+    const currentYear = currentDate.getFullYear();
+    const startDate = new Date(currentYear, currentMonth - 1, 1); // Start date of current month
+    const endDate = new Date(currentYear, currentMonth, 0); // Last day of current month
+    const startDateString = startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    const endDateString = endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    setCurrentMonthRange(`${startDateString} - ${endDateString}`);
   }, [expenses, income]);
 
   if (!user) {
@@ -58,8 +78,8 @@ export default function Home() {
 
       <main className="container max-w-2xl px-6 mx-auto">
         <section className="py-3">
-          <small className="text-gray-400 text-md">My Balance</small>
-          <h2 className="text-4xl font-bold">{currencyFormatter(balance)}</h2>
+          <div className="stat-title text-warning">Account balance</div>
+          <div className="stat-value">{currencyFormatter(balance)}</div>
         </section>
 
         <section className="flex items-center gap-2 py-3">
@@ -67,7 +87,7 @@ export default function Home() {
             onClick={() => {
               setShowAddExpenseModal(true);
             }}
-            className="btn btn-primary"
+            className="btn btn-sm btn-outline btn-accent"
           >
             + Expenses
           </button>
@@ -75,7 +95,7 @@ export default function Home() {
             onClick={() => {
               setShowAddIncomeModal(true);
             }}
-            className="btn btn-primary-outline"
+            className="btn btn-sm btn-primary btn-outline"
           >
             + Income
           </button>
@@ -83,7 +103,9 @@ export default function Home() {
 
         {/* Expenses */}
         <section className="py-6">
-          <h3 className="text-2xl">My Expenses</h3>
+          <div className="stat-value text-2xl">My Expenses</div>
+          <div className="stat-desc text-primary">{currentMonthRange}</div>
+
           <div className="flex flex-col gap-4 mt-6">
             {expenses.map((expense) => {
               return <ExpenseCategoryItem key={expense.id} expense={expense} />;
@@ -93,8 +115,9 @@ export default function Home() {
 
         {/* Chart Section */}
         <section className="py-6">
-        <a id="stats" />
-          <h3 className="text-2xl">Stats</h3>
+          <a id="stats" />
+          <div className="stat-value">Stats</div>
+          <div className="stat-desc text-primary">{highestCategory}</div>
           <div className="w-1/2 mx-auto">
             <Doughnut
               data={{
@@ -105,7 +128,7 @@ export default function Home() {
                     data: expenses.map((expense) => expense.total),
                     backgroundColor: expenses.map((expense) => expense.color),
                     borderColor: ["#18181b"],
-                    borderWidth: 5,
+                    borderWidth: 2,
                   },
                 ],
               }}
