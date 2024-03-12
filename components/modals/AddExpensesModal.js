@@ -119,28 +119,33 @@ function AddExpensesModal({ show, onClose }) {
             </button>
           </div>
 
-          {showAddExpense && (
-            <div className="flex items-center justify-between">
-              <input type="text" placeholder="Enter Title" ref={titleRef} />
+  {showAddExpense && (
+     <div className="flex flex-col">
+    <div className="flex items-center justify-center mb-2">
+      <div className="flex">
+        <input type="text" placeholder="Enter Title" ref={titleRef} className="mr-2" />
+      </div>
+      <div className="flex">
+        <input type="color" className="w-18 h-10 placeholder-black text-black grow" ref={colorRef} />
+      </div>
+    </div>
+    <div className="flex items-center justify-center">
+    <div className="flex">
+      <button onClick={addCategoryHandler} className="btn btn-success mr-2">
+        Create
+      </button>
+    </div>
+    <div className="flex">
+      <button onClick={() => { setShowAddExpense(false); }} className="btn btn-error">
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
+  )}
+  
 
-              <label className="mx-1">Pick Color</label>
-             <input type="color" className="w-4 h-10 placeholder-black text-black grow" ref={colorRef} />
-              <button
-                onClick={addCategoryHandler}
-                className="btn btn-success mx-1"
-              >
-                Create
-              </button>
-              <button
-                onClick={() => {
-                  setShowAddExpense(false);
-                }}
-                className="btn btn-error mx-1"
-              >
-                Cancel
-              </button>
-            </div>
-          )}
+
 
           {expenses.map((expense) => {
             return (
