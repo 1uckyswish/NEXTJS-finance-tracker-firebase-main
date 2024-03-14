@@ -27,7 +27,7 @@ function SignIn() {
                     onClick={anonymousLoginHandler}
                     className="flex items-center gap-2 px-4 font-medium text-white btn btn-primary rounded-lg"
                   >
-                   <FaUserSecret className="text-2xl text-black" />  Sign in Anonymous
+                   <FaUserSecret className="text-2xl text-black" />  Sign in Anonymously
                   </button>
                   
                 </div>
